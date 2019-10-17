@@ -16,9 +16,9 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["14907733", "18549902", "1140336427550552065"]});
+    var stream = T.stream("statuses/filter", { follow: ["14907733", "18549902", "1140336427550552065", "97639259"]});
     
-    var scr_name = ['IntelAgencyNGO', 'dvhn_nl', 'rtvnoord']
+    var scr_name = ['IntelAgencyNGO', 'dvhn_nl', 'rtvnoord', 'polgroningen']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
