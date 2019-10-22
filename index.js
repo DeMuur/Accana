@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
 const botconfig = require("./botconfig.json");
 const { Client, RichEmbed } = require('discord.js');
-const Test = require('./models/test')
+const Test = require('./models/test');
 const client = new Discord.Client();
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose', {useNewUrlParser: true}, { useUnifiedTopology: true });
 mongoose.connect('mongodb://localhost/Test');
 
 const Twit = require('twit');
@@ -27,7 +27,7 @@ client.on("ready", () => {
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
-            client.channels.get("632670676016431132").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            client.channels.get("635942516843085837").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
 
 });
@@ -45,7 +45,7 @@ module.exports.run = client.on('message', message => {
 
     if (command === 'save'){
         if (!args.length){ 
-            return message.channel.send("Which message do you want to be saved?")};
+            return message.channel.send("Please enter a valid value!")};
         var usernameTest = message.member.user.tag;
         var messageContentTest = args;
         message.channel.send(`Your message is saved succesfully ${usernameTest}`);
@@ -62,9 +62,26 @@ module.exports.run = client.on('message', message => {
         test.save()
         .then(result => console.log(result))
         .catch(err => console.log(err))
+
     }
-
-
+    if (command === `savelist`) {
+            //something here
+    }
+    if (command === 'twitter_user_id'){
+        if (!args.length){ 
+            return message.channel.send("Please enter a valid value!")};
+        var twitterUsername = args;
+        console.log(`${message.member.user.tag} requested the ID of the following user: ` + twitterUsername.join())
+        T.get('users/show', { screen_name: twitterUsername.join() },  function (err, data, response) {
+            console.log(data)
+        message.channel.send(`This is the ID of ` + twitterUsername.join() + `: ` + data.id)
+            if (!data.id) {
+                return message.channel.send(`Twitter user not found.`)
+            }
+            
+        })
+        message.delete()
+    }
 
     if (command === `hello`){
         return message.channel.send("Hi there :)")
