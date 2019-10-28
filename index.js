@@ -20,14 +20,14 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["14907733", "18549902", "1140336427550552065", "97639259", "7174972", "20968385", "2902821"]});
+    var stream = T.stream("statuses/filter", { follow: ["1367531", "759251"]});
     
-    var scr_name = ['IntelAgencyNGO', 'dvhn_nl', 'rtvnoord', 'polgroningen', 'NOS', 'RTLnieuws', 'telegraaf']
+    var scr_name = ['FoxNews', 'CNN']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
-            client.channels.get("636324444398419980").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            client.channels.get("636619837409591309").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
 
 });
