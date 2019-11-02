@@ -1,0 +1,8 @@
+{
+    "token":                "discord_token_here",
+    "prefix":               "prefix_here",
+    "consumer_key":         "twitter_API_required",
+    "consumer_key_secret":  "twitter_API_required",
+    "access_token":         "twitter_API_required",
+    "access_token_secret":  "twitter_API_required"
+}
