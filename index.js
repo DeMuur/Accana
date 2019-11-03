@@ -20,15 +20,18 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["1367531", "759251"]});
+    var stream = T.stream("statuses/filter", { follow: ["1367531", "759251", "2407993940", "3331851939"]});
     
-    var scr_name = ['FoxNews', 'CNN']
+    var scr_name_news = ['FoxNews', 'CNN']
+    var scr_name_intel = ['IntelDoge', 'IntelCrab']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
-        if(!scr_name.includes(tweet.user.screen_name)) return;
+        if(!scr_name_news.includes(tweet.user.screen_name)) return;
             client.channels.get("636619837409591309").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
+        if(!scr_name_intel.includes(tweet.user.screen_name)) return;
+            client.channels.get("636619884729597965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
 
 });
 
@@ -65,7 +68,7 @@ module.exports.run = client.on('message', message => {
 
     }
     if (command === `savelist`) {
-            //something here
+            //soon
     }
     if (command === 'twitter_user_id'){
         if (!args.length){ 
