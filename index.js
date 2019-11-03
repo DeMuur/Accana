@@ -29,9 +29,9 @@ client.on("ready", () => {
         console.log(tweet.user.screen_name)
         if(!scr_name_news.includes(tweet.user.screen_name)) return;
             client.channels.get("636619837409591309").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-    });
         if(!scr_name_intel.includes(tweet.user.screen_name)) return;
             client.channels.get("636619884729597965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+    });
 
 });
 
