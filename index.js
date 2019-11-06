@@ -20,17 +20,14 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["1367531", "759251", "2407993940", "3331851939"]});
+    var stream = T.stream("statuses/filter", { follow: ["5402612", "1652541", "831470472", "26792275", "380648579", "426802833", "144274618"]});
     
-    var scr_name_news = ['FoxNews', 'CNN']
-    var scr_name_intel = ['IntelDoge', 'IntelCrab']
+    var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
-        if(!scr_name_news.includes(tweet.user.screen_name)) return;
-            client.channels.get("636619837409591309").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-        if(!scr_name_intel.includes(tweet.user.screen_name)) return;
-            client.channels.get("636619884729597965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+        if(!scr_name.includes(tweet.user.screen_name)) return;
+            client.channels.get("641745177844645888").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
 
 });
@@ -67,9 +64,12 @@ module.exports.run = client.on('message', message => {
         .catch(err => console.log(err))
 
     }
-    if (command === `savelist`) {
-            //soon
-    }
+    //if (command === `savelist`) {
+    //    var test_ = mongoose.model('Test', testSchema);
+    //    model.find(test_);
+    //        console.log(test_)
+    //}
+
     if (command === 'twitter_user_id'){
         if (!args.length){ 
             return message.channel.send("Please enter a valid value!")};
