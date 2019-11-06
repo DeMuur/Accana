@@ -20,9 +20,9 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["5402612", "1652541", "831470472", "26792275", "380648579", "426802833", "144274618"]});
+    var stream = T.stream("statuses/filter", { follow: ["5402612", "1652541", "831470472", "26792275", "380648579", "426802833", "144274618", "31696962"]});
     
-    var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics']
+    var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics', 'dw_europe']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
