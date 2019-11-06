@@ -20,9 +20,9 @@ const T = new Twit({
     
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    var stream = T.stream("statuses/filter", { follow: ["5402612", "1652541", "831470472", "26792275", "380648579", "426802833", "144274618", "31696962"]});
+    var stream = T.stream("statuses/filter", { follow: ["5402612", "1652541", "831470472", "26792275", "380648579", "426802833", "144274618", "31696962", "1642135962", "16561457"]});
     
-    var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics', 'dw_europe']
+    var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics', 'dw_europe', 'BBCNewsAsia', 'RadioFreeAsia']
 
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
@@ -90,6 +90,10 @@ module.exports.run = client.on('message', message => {
         return message.channel.send("Hi there :)")
     }
 
+    if (command === `feedlist`){
+        var scr_name2 = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics', 'dw_europe', 'BBCNewsAsia', 'RadioFreeAsia']
+        return message.channel.send(scr_name2)
+    }
 
     if (command === `reload`) {
         message.channel.send(`Reloading...`)
