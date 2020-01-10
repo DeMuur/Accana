@@ -27,7 +27,7 @@ client.on("ready", () => {
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
-            client.channels.get("641745177844645888").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            client.channels.get("646745474514026506").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
 
 });
