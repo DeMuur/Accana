@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 const botconfig = require("./botconfig.json");
 const { Client, RichEmbed } = require('discord.js');
-const Test = require('./models/test');
+const twitterFeedsModel = require('./models/twitterFeedsModel');
 const client = new Discord.Client();
 
 const mongoose = require('mongoose', {useNewUrlParser: true}, { useUnifiedTopology: true });
-mongoose.connect('mongodb://localhost/Test');
+mongoose.connect('mongodb://localhost/twitterFeedDatabeses');
 
 const Twit = require('twit');
 
@@ -27,9 +27,8 @@ client.on("ready", () => {
     stream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
-            client.channels.get("641745177844645888").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            client.channels.get("646745474514026506").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
-
 });
 
 module.exports.run = client.on('message', message => {
@@ -43,39 +42,41 @@ module.exports.run = client.on('message', message => {
 		return message.channel.send(`I ain't gonna fill the command in by myself fam`);
     }
 
-    if (command === 'save'){
+    if (command === 'add_twitter_feed'){
         if (!args.length){ 
             return message.channel.send("Please enter a valid value!")};
-        var usernameTest = message.member.user.tag;
-        var messageContentTest = args;
-        message.channel.send(`Your message is saved succesfully ${usernameTest}`);
-        console.log(usernameTest);
-        console.log(messageContentTest);
-        
-        const test = new Test({
+        var twitterUsername_feed = args;
+        T.get('users/show', { screen_name: twitterUsername_feed.join() },  function (err, data, response) {
+            console.log(data.id)
+        const twitterFeedVar = new twitterFeedsModel({
             _id: mongoose.Types.ObjectId(),
-            username: usernameTest,
-            username_id: message.member.id,
-            messageContent: messageContentTest.join(' ')
+            twitterUsernameAddedToFeed: twitterUsername_feed.join(),
+            twitterUsername_idAddedToFeed: data.id,
         })
-            
-        test.save()
+       
+        twitterFeedVar.save()
         .then(result => console.log(result))
         .catch(err => console.log(err))
 
+        twitterFeedVar.find()
+        .then(doc => {
+        message.channel.send(doc)
+        })
+    }) 
     }
-    //if (command === `savelist`) {
-    //    var test_ = mongoose.model('Test', testSchema);
-    //    model.find(test_);
-    //        console.log(test_)
-    //}
-
+    /*if (command === `savelist`) {
+        Test.find()
+        .then(doc => {
+        message.channel.send(doc)
+        })
+    }
+    */
     if (command === 'twitter_user_id'){
         if (!args.length){ 
             return message.channel.send("Please enter a valid value!")};
-        var twitterUsername = args;
+        var twitterUsername_lookup = args;
         console.log(`${message.member.user.tag} requested the ID of the following user: ` + twitterUsername.join())
-        T.get('users/show', { screen_name: twitterUsername.join() },  function (err, data, response) {
+        T.get('users/show', { screen_name: twitterUsername_lookup.join() },  function (err, data, response) {
             console.log(data)
         message.channel.send(`This is the ID of ` + twitterUsername.join() + `: ` + data.id)
             if (!data.id) {
