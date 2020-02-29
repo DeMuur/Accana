@@ -16,6 +16,13 @@ const T = new Twit({
     access_token_secret:  botconfig.access_token_secret,
 });
 
+const Ttwo = new Twit({
+    consumer_key:         botconfig.consumer_key,
+    consumer_secret:      botconfig.consumer_key_secret,
+    access_token:         botconfig.access_token,
+    access_token_secret:  botconfig.access_token_secret,
+});
+
 
     
 client.on("ready", () => {
@@ -28,8 +35,21 @@ client.on("ready", () => {
         console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
             client.channels.get("646745474514026506").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+
+    });
+
+    var secondStream = T.stream("statuses/filter", { follow: "2985479932"});
+
+    var secondScr_name = 'BNODesk'
+        
+    secondStream.on("tweet", function (tweet) {
+        console.log(tweet.user.screen_name)
+        if(!secondScr_name.includes(tweet.user.screen_name)) return;
+            client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            client.channels.get("645733080061181965").send(`Hello <@283206528004259850>, there is a new tweet!`)
     });
 });
+
 
 module.exports.run = client.on('message', message => {
 
