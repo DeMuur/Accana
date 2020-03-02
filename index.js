@@ -24,41 +24,88 @@ client.on("ready", () => {
     var scr_name = ['BBCbreaking', 'Reuters', 'pewglobal', 'ForeignPolicy', 'AFP', 'AP_Politics', 'economics', 'dw_europe', 'BBCNewsAsia', 'RadioFreeAsia']
 
     stream.on("tweet", function (tweet) {
-        console.log(tweet.user.screen_name)
         if(!scr_name.includes(tweet.user.screen_name)) return;
             client.channels.get("646745474514026506").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
 
-    var secondStream = T.stream("statuses/filter", { follow: "2985479932"});
+    const secondStream = T.stream("statuses/filter", {follow: "2985479932"});
+    const secondScr_name = "BNODesk"
+
+    secondStream.on("tweet", function (tweet){
+        if(secondScr_name.includes(tweet.user.screen_name)) {
+            const tweetContent = tweet.text.split(" ");
+            console.log(tweetContent)
+            const filteredWords = ['thank', 'Thank', 'you', 'you.', 'you!']
+            console.log("It does include Breakin: " + tweetContent.includes("BREAKING:"))
+            if(!filteredWords.some(word => tweet.text.includes(word))){
+                if(tweetContent.includes("BREAKING:")){
+                    console.log("It does include breaking (after if-statement): " + tweetContent.includes("BREAKING:"))
+                    client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                    client.channels.get('645733080061181965').send('I found out this tweet covers important news @here')
+                    } else if(!tweet.text.startsWith("@")){
+                        client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                        client.channels.get("645733080061181965").send(`Hello <@283206528004259850>, there is a new tweet!`)
+                 }
+            }
+          }
+        });
+/*        if (!secondScr_name.includes(tweet.user.scr_name)) return;
+            else {
+                const tweetContent = tweet.text.split(" ")
+                const filteredWords = ['thank', 'Thank', 'you', 'you.', 'you!']
+                const check = filteredWord.some(word => tweet.text.includes(word));
+                if (check) return;
+                    else {
+                        if (tweetContent.includes('BREAKING:')) {
+                            client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                            client.channels.get('645733080061181965').send('I found out this tweet covers important news @here')
+                            return;
+                        }
+                                else {
+                                    if (tweet.text.startsWith('@')) return;
+                                        else {
+                                            client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                                            client.channels.get("645733080061181965").send(`Hello <@283206528004259850>, there is a new tweet!`)
+                                        }
+                                }
+                        }
+                    }
+            }
+    )
+*/
+/*    var secondStream = T.stream("statuses/filter", { follow: "2985479932"});
 
     var secondScr_name = 'BNODesk'
         
     secondStream.on("tweet", function (tweet) {
         console.log(tweet.user.screen_name)
         if(!secondScr_name.includes(tweet.user.screen_name)) return;
-        var tweetContent = tweet.text.split(" ")
-        console.log(tweetContent)
-        var filteredWord = ['thank', 'Thank', 'you', 'you.', 'you!']
-        var check = filteredWord.some(word => tweet.text.includes(word));
-        if (check) return;
-        if (tweetContent.includes('BREAKING:')) {
-            client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-            client.channels.get('645733080061181965').send('I found out this tweet covers important news @here')
-            return;
-        }
-        if (tweet.text.startsWith('@')) return;
         else {
-            client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-            client.channels.get("645733080061181965").send(`Hello <@283206528004259850>, there is a new tweet!`)
+            var tweetContent = tweet.text.split(" ")
+            console.log(tweetContent)
+            var filteredWord = ['thank', 'Thank', 'you', 'you.', 'you!']
+            var check = filteredWord.some(word => tweet.text.includes(word));
+            if (check) return;
+            else {if (tweetContent.includes('BREAKING:')) {
+                client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                client.channels.get('645733080061181965').send('I found out this tweet covers important news @here')
+                return}
+                else {
+                    if (tweet.text.startsWith('@')) return;
+                    else {
+                        client.channels.get("645733080061181965").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+                        client.channels.get("645733080061181965").send(`Hello <@283206528004259850>, there is a new tweet!`)
+                    }
         }
+    }
     });
+*/
     
     var thirdStream = T.stream("statuses/filter", { follow: ["14907733", "22465767", "18549902", "451432440", "97639259", "2343981858"]});
     
     var thirdScr_name = ['rtvnoord', 'oogtv', 'dvhn_nl', 'P2000Groningen', 'polgroningen', 'Sikkom050']
 
     thirdStream.on("tweet", function (tweet) {
-        console.log(tweet.user.screen_name)
         if(!thirdScr_name.includes(tweet.user.screen_name)) return;
             client.channels.get("632705489108729867").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
     });
