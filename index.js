@@ -49,6 +49,30 @@ client.on("ready", () => {
             }
           }
     });
+
+    const secondBStream = T.stream("statuses/filter", {follow: "2985479932"});
+    const secondBScr_name = "BNODesk"
+
+    secondBStream.on("tweet", function (tweet){
+        console.log(tweet.user.screen_name)
+        if(secondBScr_name.includes(tweet.user.screen_name)) {
+            const tweetBContent = tweet.text.split(" ");
+            console.log(tweetBContent)
+            const filteredBWords = ['thank', 'Thank', 'you', 'you.', 'you!']
+            console.log("It does include Breakin: " + tweetBContent.includes("BREAKING:"))
+            if(!filteredBWords.some(word => tweet.text.includes(word))){
+                if(tweetBContent.includes("BREAKING:")){
+                    console.log("It does include breaking (after if-statement): " + tweetBContent.includes("BREAKING:"))
+                    client.channels.get("684781433214206004").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                    client.channels.get('684781433214206004').send('I found out this tweet covers important news')
+                    } else if(!tweet.text.startsWith("@")){
+                        client.channels.get("684781433214206004").send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+                        client.channels.get("684781433214206004").send(`Hello <@283206528004259850>, there is a new tweet!`)
+                 }
+            }
+          }
+    });
+
     //GRUNNstream
     const thirdStream = T.stream("statuses/filter", { follow: ["14907733", "22465767", "18549902", "451432440", "97639259", "2343981858"]});
     const thirdScr_name = ['rtvnoord', 'oogtv', 'dvhn_nl', 'P2000Groningen', 'polgroningen', 'Sikkom050']
